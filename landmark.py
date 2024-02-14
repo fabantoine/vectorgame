@@ -2,11 +2,12 @@ import pygame as pg
 from settings import *
 from level import Level
 
+
 class Landmark:
     def __init__(self):
         self.surface = pg.Surface(size=(GRID_SIZE, GRID_SIZE))
         self.surface.fill((0, 0, 0))
-        pg.init()
+        #pg.init()
         self.font = pg.font.SysFont(None, 32)
         self.print_line()
         self.print_number()
