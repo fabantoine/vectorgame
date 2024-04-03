@@ -14,6 +14,24 @@ class Inbox:
         self.messages = []
         self.input_active = False
         self.input_text = ""
+        self.x_vector = ""
+        self.y_vector = ""
+
+
+    def vector_defined(self):
+        fcaracters =[" ", "(", ")", ","]
+        is_x = True
+        for caracter in self.messages[0]:
+            if caracter == ";":
+                is_x = False
+            if not caracter in fcaracters:
+                if is_x:
+                    self.x_vector += caracter
+                if not is_x and caracter != ";":
+                    self.y_vector += caracter
+        self.x_vector = int(self.x_vector)
+        self.y_vector = int(self.y_vector)
+
 
     def add_message(self, message):
         self.messages.append(message)
@@ -27,12 +45,14 @@ class Inbox:
     def handle_input(self, event):
         if event.type == KEYDOWN:
             if event.key == K_RETURN:
-                self.add_message("Input: " + self.input_text)
+                self.add_message(self.input_text)
                 self.input_active = False
+                self.vector_defined()
             elif event.key == K_BACKSPACE:
                 self.input_text = self.input_text[:-1]
-            else:
+            elif len(self.input_text) < 8:
                 self.input_text += event.unicode
+
 
     def draw(self):
         pygame.draw.rect(self.surface, (0, 0, 0), (self.x, self.y, self.width, self.height))

@@ -5,6 +5,7 @@ import pygame as pg
 import pygame.image
 from pygame.locals import *
 from settings import *
+from vector import Vector
 
 class Level:
     def __init__(self):
@@ -17,6 +18,7 @@ class Level:
         self.rect_mouse = self.image_mouse.get_rect()
         self.font = pygame.font.SysFont("Arial", 30)
         self.level_generate()
+        self.vector = Vector()
 
     def level_generate(self):
         self.text()
@@ -38,5 +40,7 @@ class Level:
 
     def draw_level(self, screen):
         screen.blit(self.image_cat, self.rect_cat)
+        print(self.rect_cat.center)
         screen.blit(self.image_mouse, self.rect_mouse)
         screen.blit(self.title, (10, 10))
+        self.vector.draw_vector(screen=screen, op=self.rect_cat.center)
