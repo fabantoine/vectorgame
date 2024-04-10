@@ -40,7 +40,6 @@ class Level:
 
     def draw_level(self, screen):
         screen.blit(self.image_cat, self.rect_cat)
-        print(self.rect_cat.center)
         screen.blit(self.image_mouse, self.rect_mouse)
         screen.blit(self.title, (10, 10))
-        self.vector.draw_vector(screen=screen, op=self.rect_cat.center)
+        #self.vector.draw_vector(screen=screen, op=self.rect_cat.center)

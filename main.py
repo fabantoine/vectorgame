@@ -32,6 +32,9 @@ def main():
     while True:
         inbox.draw()
         # get input
+        if inbox.x_vector or inbox.y_vector != "":
+            landmark.level.vector.coordinates = (inbox.x_vector, inbox.y_vector)
+            landmark.level.vector.draw_vector(screen=screen, op=landmark.level.rect_cat.center)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
