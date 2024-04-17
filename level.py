@@ -6,6 +6,7 @@ import pygame.image
 from pygame.locals import *
 from settings import *
 from vector import Vector
+from animation import Animation
 
 class Level:
     def __init__(self):
@@ -19,8 +20,11 @@ class Level:
         self.font = pygame.font.SysFont("Arial", 100)
         #print(pg.font.get_fonts())
         self.font_text = pg.font.SysFont("calibri", 30)
+        self.init_pos_cat = (0, 0)
+        self.animation = Animation()
         self.level_generate()
         self.vector = Vector()
+
 
     def level_generate(self):
         self.text()
@@ -32,6 +36,8 @@ class Level:
         self.rect_mouse.center = (50+(self.mouse_coordinates[0]*offset_grid) - 8,450-(self.mouse_coordinates[1]*offset_grid))
         self.rect_mouse.x += GRID_SURFACE[0]
         self.rect_mouse.y += GRID_SURFACE[1]
+        self.init_pos_cat = self.rect_cat.center
+        self.animation.set_start(self.init_pos_cat)
 
     def text(self):
         title_text = "CATCH THE MOUSE"
@@ -45,6 +51,12 @@ class Level:
             self.instruction2 = self.font_text.render(instruction2, True, (0, 0, 0))
             self.instruction3 = self.font_text.render(instruction3, True, (0, 0, 0))
     def draw_level(self, screen):
+        #self.animation.set_start(self.rect_cat.center)
+        if self.animation.is_animated:
+            self.animation.animate()
+            print(f"start:{self.animation.start} end:{self.animation.end} pos:{self.animation.position_x, self.animation.position_y}")
+            self.rect_cat.center = (self.animation.position_x, self.animation.position_y)
+
         screen.blit(self.image_cat, self.rect_cat)
         screen.blit(self.image_mouse, self.rect_mouse)
         screen.blit(self.title, (10, 10))

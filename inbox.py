@@ -18,6 +18,7 @@ class Inbox:
         self.input_text = ""
         self.x_vector = ""
         self.y_vector = ""
+        self.vector_is_defined = False
 
     def vector_defined(self):
         vector_values = self.messages[0].replace("(", "").replace(")", "").split(";")
@@ -25,9 +26,10 @@ class Inbox:
         try:
             self.x_vector = int(vector_values[0].strip())
             self.y_vector = int(vector_values[1].strip())
+            self.vector_is_defined = True
+
         except ValueError:
             # En cas d'erreur de conversion en entier
-            print("Erreur: Les composantes du vecteur doivent être des chiffres.")
             self.syntax_error = True
 
     def add_message(self, message):

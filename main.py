@@ -36,7 +36,11 @@ def main():
         # get input
         if inbox.x_vector or inbox.y_vector != "":
             landmark.level.vector.coordinates = (inbox.x_vector, inbox.y_vector)
-            landmark.level.vector.draw_vector(screen=screen, op=landmark.level.rect_cat.center)
+            landmark.level.vector.draw_vector(screen=screen, op=landmark.level.init_pos_cat)
+            if not landmark.level.animation.is_animated and landmark.level.vector.is_defined:
+                landmark.level.animation.set_end((landmark.level.rect_cat.center[0]+inbox.x_vector*offset_grid,
+                                                landmark.level.rect_cat.center[1]-inbox.y_vector*offset_grid))
+                landmark.level.animation.is_animated = True
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
