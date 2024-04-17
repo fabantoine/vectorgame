@@ -9,29 +9,26 @@ class Inbox:
         self.width = width
         self.height = height
         self.font = pygame.font.SysFont(font, font_size)
+        self.font_err = pygame.font.SysFont("Arial", 30)
         self.color = color
         self.max_lines = max_lines
         self.messages = []
         self.input_active = False
+        self.syntax_error = False
         self.input_text = ""
         self.x_vector = ""
         self.y_vector = ""
 
-
     def vector_defined(self):
-        fcaracters =[" ", "(", ")", ","]
-        is_x = True
-        for caracter in self.messages[0]:
-            if caracter == ";":
-                is_x = False
-            if not caracter in fcaracters:
-                if is_x:
-                    self.x_vector += caracter
-                if not is_x and caracter != ";":
-                    self.y_vector += caracter
-        self.x_vector = int(self.x_vector)
-        self.y_vector = int(self.y_vector)
+        vector_values = self.messages[0].replace("(", "").replace(")", "").split(";")
 
+        try:
+            self.x_vector = int(vector_values[0].strip())
+            self.y_vector = int(vector_values[1].strip())
+        except ValueError:
+            # En cas d'erreur de conversion en entier
+            print("Erreur: Les composantes du vecteur doivent être des chiffres.")
+            self.syntax_error = True
 
     def add_message(self, message):
         self.messages.append(message)
@@ -41,6 +38,7 @@ class Inbox:
     def start_input(self):
         self.input_active = True
         self.input_text = ""
+        self.syntax_error = False
 
     def handle_input(self, event):
         if event.type == KEYDOWN:
@@ -57,42 +55,10 @@ class Inbox:
     def draw(self):
         pygame.draw.rect(self.surface, (0, 0, 0), (self.x, self.y, self.width, self.height))
         line_height = self.height // self.max_lines
-        '''for i, message in enumerate(self.messages):
-            text_surface = self.font.render(message, True, self.color)
-            self.surface.blit(text_surface, (self.x + 10, self.y + i * line_height + 5))'''
-
+        if self.syntax_error:
+            message = self.font_err.render("Erreur: Les coordonnées sont incorrectes", True, (0, 0, 0))
+            self.surface.blit(message, (50, self.y + 50))
         if self.input_active:
-
             pygame.draw.rect(self.surface, (255, 255, 255), (self.x + 10, self.y + self.height - 30, self.width - 20, 20))
             input_surface = self.font.render(self.input_text, True, (0, 0, 0))
             self.surface.blit(input_surface, (self.x + 12, self.y - 4 + self.height - 28))
-
-'''# Example usage:
-pygame.init()
-screen_width = 800
-screen_height = 600
-screen = pygame.display.set_mode((screen_width, screen_height))
-clock = pygame.time.Clock()
-
-inbox = Inbox(screen, 50, 50, 100, 40, "Arial", 20)
-
-running = True
-while running:
-
-
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            running = False
-        elif event.type == KEYDOWN:
-            if event.key == K_i:
-                inbox.start_input()
-            elif inbox.input_active:
-                inbox.handle_input(event)
-
-    inbox.draw()
-
-    pygame.display.flip()
-    clock.tick(60)
-
-pygame.quit()'''
-

@@ -27,6 +27,8 @@ class Vector:
             self.vector_surface_rect.y = op[1]
         if self.coordinates[0]<0 and self.coordinates[1]>0:
             pg.draw.line(self.vector_surface, (255, 255, 255), size, (0, 0), width=5)
+            pg.draw.line(self.vector_surface, (255, 255, 255), (0, 0), (24, 0), width=5)
+            pg.draw.line(self.vector_surface, (255, 255, 255), (0, 0), (0, 24), width=5)
             self.vector_surface_rect.x = op[0] - size[0]
             self.vector_surface_rect.y = op[1] - size[1]
         if self.coordinates[0]<0 and self.coordinates[1]<0:
@@ -37,24 +39,36 @@ class Vector:
             self.vector_surface_rect.y = op[1]
         if self.coordinates[0]>0 and self.coordinates[1]>0:
             pg.draw.line(self.vector_surface, (255, 255, 255), (0, size[1]), (size[0], 0), width=5)
+            pg.draw.line(self.vector_surface, (255, 255, 255), (size[0], 0), (size[0]-24, 0), width=5)
+            pg.draw.line(self.vector_surface, (255, 255, 255), (size[0], 0), (size[0], 24), width=5)
             self.vector_surface_rect.x = op[0]
             self.vector_surface_rect.y = op[1] - size[1]
         if self.coordinates[0] == 0:        #Vecteur vertical
             if self.coordinates[1] > 0:
                 pg.draw.line(self.vector_surface, (255, 255, 255), (size[0]/2, 0), (size[0]/2, size[1]), width=5)
+                pg.draw.line(self.vector_surface, (255, 255, 255), (size[0]/2, 0), (size[0], 24), width=5)
+                pg.draw.line(self.vector_surface, (255, 255, 255), (size[0]/2, 0), (0, 24), width=5)
                 self.vector_surface_rect.x = op[0] - size[0]/2
                 self.vector_surface_rect.y = op[1] - size[1]
             if self.coordinates[1] < 0:
                 pg.draw.line(self.vector_surface, (255, 255, 255), (size[0]/2, 0), (size[0]/2, size[1]), width=5)
+                pg.draw.line(self.vector_surface, (255, 255, 255), (size[0]/2, size[1]), (0, size[1]-24),
+                             width=5)
+                pg.draw.line(self.vector_surface, (255, 255, 255), (size[0]/2, size[1]), (size[0], size[1]-24), width=5)
                 self.vector_surface_rect.x = op[0] - size[0]/2
                 self.vector_surface_rect.y = op[1]
         if self.coordinates[1] == 0:        #Vecteur horizontal
             if self.coordinates[0] > 0:
                 pg.draw.line(self.vector_surface, (255, 255, 255), (0, size[1]/2), (size[0], size[1]/2), width=5)
+                pg.draw.line(self.vector_surface, (255, 255, 255), (size[0], size[1]/2), (size[0]-24, size[1]), width=5)
+                pg.draw.line(self.vector_surface, (255, 255, 255), (size[0], size[1]/2), (size[0]-24, 0), width=5)
                 self.vector_surface_rect.x = op[0]
                 self.vector_surface_rect.y = op[1] - size[1]/2
             if self.coordinates[0] < 0:
                 pg.draw.line(self.vector_surface, (255, 255, 255), (size[0], size[1]/2), (0, size[1]/2), width=5)
+                pg.draw.line(self.vector_surface, (255, 255, 255), (0, size[1]/2), (24, size[1]),
+                             width=5)
+                pg.draw.line(self.vector_surface, (255, 255, 255), (0, size[1]/2), (24, 0), width=5)
                 self.vector_surface_rect.x = op[0] - size[0]
                 self.vector_surface_rect.y = op[1] - size[1]/2
         screen.blit(self.vector_surface, self.vector_surface_rect)

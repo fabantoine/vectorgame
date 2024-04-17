@@ -16,20 +16,22 @@ def main():
     bestdepth = pg.display.mode_ok(SCREENRECT.size, winstyle, 32)
     screen = pg.display.set_mode(SCREENRECT.size, winstyle, bestdepth)
     landmark = Landmark()
-    inbox = Inbox(screen, 50, 450, 100, 40, "Arial", 20)
-
+    inbox = Inbox(screen, 250, 350, 100, 40, "Arial", 20)
+    clikable_surface = pg.Rect(inbox.x, inbox.y, inbox.width, inbox.height)
     # create the background, tile the bgd image
     background = pg.Surface(SCREENRECT.size)
     pg.Surface.fill(background, (125, 50, 50), SCREENRECT)
-    screen.blit(background, (0, 0))
-    pg.display.flip()
-    landmark.draw_landmark(screen)
+    #screen.blit(background, (0, 0))
+    #pg.display.flip()
+    #landmark.draw_landmark(screen)
 
 
 
     # Initialize Game Groups
 
     while True:
+        screen.blit(background, (0, 0))
+        landmark.draw_landmark(screen)
         inbox.draw()
         # get input
         if inbox.x_vector or inbox.y_vector != "":
@@ -38,8 +40,10 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
-            #if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-            #    return
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if clikable_surface.collidepoint(event.pos):
+                        inbox.start_input()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_i:
                     inbox.start_input()

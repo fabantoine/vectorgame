@@ -16,7 +16,9 @@ class Level:
         self.image_mouse = pygame.image.load('data/mouse.png')
         self.image_mouse = pygame.transform.scale(self.image_mouse, (50, 50))
         self.rect_mouse = self.image_mouse.get_rect()
-        self.font = pygame.font.SysFont("Arial", 30)
+        self.font = pygame.font.SysFont("Arial", 100)
+        #print(pg.font.get_fonts())
+        self.font_text = pg.font.SysFont("calibri", 30)
         self.level_generate()
         self.vector = Vector()
 
@@ -33,13 +35,20 @@ class Level:
 
     def text(self):
         title_text = "CATCH THE MOUSE"
+        instruction = "Le but est de donner les coordonnées du vecteur"
+        instruction2 = "de déplacement du chat, pour qu'il attrape la souris."
+        instruction3 = "Les cordonnées sont données sous la forme (x ; y)"
+
         if self.level == 1:
             self.title = self.font.render(title_text, True, (0, 0, 0))
-
-
-
+            self.instruction = self.font_text.render(instruction, True, (0, 0, 0))
+            self.instruction2 = self.font_text.render(instruction2, True, (0, 0, 0))
+            self.instruction3 = self.font_text.render(instruction3, True, (0, 0, 0))
     def draw_level(self, screen):
         screen.blit(self.image_cat, self.rect_cat)
         screen.blit(self.image_mouse, self.rect_mouse)
         screen.blit(self.title, (10, 10))
+        screen.blit(self.instruction, (10, 200))
+        screen.blit(self.instruction2, (10, 240))
+        screen.blit(self.instruction3, (10, 280))
         #self.vector.draw_vector(screen=screen, op=self.rect_cat.center)
