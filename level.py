@@ -22,11 +22,11 @@ class Level:
         self.font_text = pg.font.SysFont("calibri", 30)
         self.init_pos_cat = (0, 0)
         self.animation = Animation()
-        self.level_generate()
         self.vector = Vector()
-
+        self.level_generate()
 
     def level_generate(self):
+        self.vector.is_defined = False
         self.text()
         self.cat_coordinates = (random.randint(0, 10), random.randint(0, 10))
         self.mouse_coordinates = (random.randint(0, 10), random.randint(0, 10))
@@ -51,10 +51,11 @@ class Level:
             self.instruction2 = self.font_text.render(instruction2, True, (0, 0, 0))
             self.instruction3 = self.font_text.render(instruction3, True, (0, 0, 0))
     def draw_level(self, screen):
-        #self.animation.set_start(self.rect_cat.center)
+        self.vector.draw_vector(screen=screen, op=self.init_pos_cat)
+        #print(self.animation.is_animated)
         if self.animation.is_animated:
             self.animation.animate()
-            print(f"start:{self.animation.start} end:{self.animation.end} pos:{self.animation.position_x, self.animation.position_y}")
+            #print(f"start:{self.animation.start} end:{self.animation.end} pos:{self.animation.position_x, self.animation.position_y}")
             self.rect_cat.center = (self.animation.position_x, self.animation.position_y)
 
         screen.blit(self.image_cat, self.rect_cat)

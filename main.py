@@ -34,9 +34,11 @@ def main():
         landmark.draw_landmark(screen)
         inbox.draw()
         # get input
-        if inbox.x_vector or inbox.y_vector != "":
+        if inbox.x_vector != "" or inbox.y_vector != "":
             landmark.level.vector.coordinates = (inbox.x_vector, inbox.y_vector)
-            landmark.level.vector.draw_vector(screen=screen, op=landmark.level.init_pos_cat)
+            #landmark.level.vector.draw_vector(screen=screen, op=landmark.level.init_pos_cat)
+            landmark.level.vector.is_defined = True
+            #print(f"animation.is_animated : {landmark.level.animation.is_animated} level.vector.is_defined: {landmark.level.vector.is_defined}")
             if not landmark.level.animation.is_animated and landmark.level.vector.is_defined:
                 landmark.level.animation.set_end((landmark.level.rect_cat.center[0]+inbox.x_vector*offset_grid,
                                                 landmark.level.rect_cat.center[1]-inbox.y_vector*offset_grid))
@@ -50,10 +52,14 @@ def main():
                         inbox.start_input()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_i:
-                    inbox.start_input()
+                    landmark.level.level_generate()
+                    inbox.y_vector = ""
+                    inbox.x_vector = ""
+                    inbox.vector_is_defined = False
+                    landmark.level.vector.is_defined = False
+
                 elif inbox.input_active:
                     inbox.handle_input(event)
-
         pg.display.flip()
         dt = clock.tick(60) / 1000
 
