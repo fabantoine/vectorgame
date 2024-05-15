@@ -11,7 +11,7 @@ class Vector:
 
     def draw_vector(self, screen, op=(0, 0), coordinates=(0, 0)):
         self.op = op
-        coordinates = self.coordinates
+        #coordinates = self.coordinates
         size = (abs(self.coordinates[0]) * self.offset, abs(self.coordinates[1]) * self.offset)
         if self.coordinates[0] == 0:
             size = (self.offset, abs(self.coordinates[1]) * self.offset)

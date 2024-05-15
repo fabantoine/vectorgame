@@ -39,6 +39,7 @@ class Level:
         self.init_pos_cat = self.rect_cat.center
         self.animation.set_start(self.init_pos_cat)
 
+
     def text(self):
         title_text = "CATCH THE MOUSE"
         instruction = "Le but est de donner les coordonnées du vecteur"
@@ -51,7 +52,8 @@ class Level:
             self.instruction2 = self.font_text.render(instruction2, True, (0, 0, 0))
             self.instruction3 = self.font_text.render(instruction3, True, (0, 0, 0))
     def draw_level(self, screen):
-        self.vector.draw_vector(screen=screen, op=self.init_pos_cat)
+        if self.vector.is_defined and not self.animation.is_finish:
+            self.vector.draw_vector(screen=screen, op=self.init_pos_cat)
         #print(self.animation.is_animated)
         if self.animation.is_animated:
             self.animation.animate()
@@ -65,3 +67,17 @@ class Level:
         screen.blit(self.instruction2, (10, 240))
         screen.blit(self.instruction3, (10, 280))
         #self.vector.draw_vector(screen=screen, op=self.rect_cat.center)
+        self.win_test()
+
+    def win_test(self):
+        if self.animation.is_finish:
+            good_answer = [0, 0]
+            good_answer[0] = self.mouse_coordinates[0] - self.cat_coordinates[0]
+            good_answer[1] = self.mouse_coordinates[1] - self.cat_coordinates[1]
+            player_answer = [0, 0]
+            player_answer[0] = self.vector.coordinates[0]
+            player_answer[1] = self.vector.coordinates[1]
+            if player_answer == good_answer:
+                print("WIN !")
+            else:
+                print("loose")

@@ -25,4 +25,5 @@ class Animation:
                 self.position_y += abs(self.start[1] - self.end[1])/100
             if round(self.position_x) == self.end[0] and round(self.position_y) == self.end[1]:
                 self.is_finish = True
+                self.is_animated = False
 
