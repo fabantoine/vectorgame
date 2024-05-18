@@ -14,6 +14,7 @@ class Animation:
     def set_end(self, end_point=(10, 10)):
         self.end = end_point
     def animate(self):
+        #self.is_animated = True
         if not self.is_finish:
             if self.end[0] < self.position_x:
                 self.position_x -= abs(self.start[0] - self.end[0])/100

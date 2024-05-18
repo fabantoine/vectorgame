@@ -53,10 +53,13 @@ def main():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_i:
                     landmark.level.level_generate()
+                    inbox.input_text = ""
                     inbox.y_vector = ""
                     inbox.x_vector = ""
+                    inbox.messages = []
                     inbox.vector_is_defined = False
                     landmark.level.vector.is_defined = False
+
 
                 elif inbox.input_active:
                     inbox.handle_input(event)

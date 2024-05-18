@@ -27,6 +27,8 @@ class Level:
 
     def level_generate(self):
         self.vector.is_defined = False
+        self.animation.is_finish = False
+        self.animation.is_animated = False
         self.text()
         self.cat_coordinates = (random.randint(0, 10), random.randint(0, 10))
         self.mouse_coordinates = (random.randint(0, 10), random.randint(0, 10))
@@ -38,6 +40,7 @@ class Level:
         self.rect_mouse.y += GRID_SURFACE[1]
         self.init_pos_cat = self.rect_cat.center
         self.animation.set_start(self.init_pos_cat)
+
 
 
     def text(self):

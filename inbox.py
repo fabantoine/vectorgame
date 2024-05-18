@@ -38,9 +38,12 @@ class Inbox:
             self.messages.pop(0)
 
     def start_input(self):
+        self.vector_is_defined = False
         self.input_active = True
         self.input_text = ""
         self.syntax_error = False
+        self.x_vector = ""
+        self.y_vector = ""
 
     def handle_input(self, event):
         if event.type == KEYDOWN:
