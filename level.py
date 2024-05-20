@@ -23,8 +23,13 @@ class Level:
         self.init_pos_cat = (0, 0)
         self.animation = Animation()
         self.vector = Vector()
-        self.level_generate()
 
+        self.need_fmessage = False
+        self.need_inbox_clean = False
+        self.pause = False
+        self.score = 0
+        self.tentative = 0
+        self.level_generate()
     def level_generate(self):
         self.vector.is_defined = False
         self.animation.is_finish = False
@@ -48,12 +53,15 @@ class Level:
         instruction = "Le but est de donner les coordonnées du vecteur"
         instruction2 = "de déplacement du chat, pour qu'il attrape la souris."
         instruction3 = "Les cordonnées sont données sous la forme (x ; y)"
+        score_text = f"Votre score est de {self.score *5}/20"
+        tentative = f"Tentative : {self.tentative}/4"
 
-        if self.level == 1:
-            self.title = self.font.render(title_text, True, (0, 0, 0))
-            self.instruction = self.font_text.render(instruction, True, (0, 0, 0))
-            self.instruction2 = self.font_text.render(instruction2, True, (0, 0, 0))
-            self.instruction3 = self.font_text.render(instruction3, True, (0, 0, 0))
+        self.title = self.font.render(title_text, True, (200, 200, 200))
+        self.instruction = self.font_text.render(instruction, True, (200, 200, 200))
+        self.instruction2 = self.font_text.render(instruction2, True, (200, 200, 200))
+        self.instruction3 = self.font_text.render(instruction3, True, (200, 200, 200))
+        self.score_text = self.font_text.render(score_text, True, (255, 255, 255))
+        self.tentative_text = self.font_text.render(tentative, True, (255, 255, 255))
     def draw_level(self, screen):
         if self.vector.is_defined and not self.animation.is_finish:
             self.vector.draw_vector(screen=screen, op=self.init_pos_cat)
@@ -65,13 +73,39 @@ class Level:
 
         screen.blit(self.image_cat, self.rect_cat)
         screen.blit(self.image_mouse, self.rect_mouse)
-        screen.blit(self.title, (10, 10))
+        screen.blit(self.title, (200, 10))
         screen.blit(self.instruction, (10, 200))
         screen.blit(self.instruction2, (10, 240))
         screen.blit(self.instruction3, (10, 280))
+        screen.blit(self.score_text, (10, 650))
+        screen.blit(self.tentative_text, (10, 600))
         #self.vector.draw_vector(screen=screen, op=self.rect_cat.center)
         self.win_test()
+        if self.need_fmessage:
+            screen.blit(self.message, (200, 450))
+            self.pause = True
+            self.need_fmessage = False
+            self.reset()
 
+    def reset(self):
+        self.need_inbox_clean = True
+        #self.inbox.input_text = ""
+        #self.inbox.y_vector = ""
+        #self.inbox.x_vector = ""
+        #self.inbox.messages = []
+        #self.inbox.vector_is_defined = False
+        self.vector.is_defined = False
+        self.level_generate()
+
+    def final_message(self, win):
+        self.need_fmessage = True
+        self.tentative +=1
+        if win:
+            text1 = "Gagner !"
+            self.score += 1
+        else:
+            text1 = "Perdu !"
+        self.message = self.font.render(text1, True, (255, 255, 255))
     def win_test(self):
         if self.animation.is_finish:
             good_answer = [0, 0]
@@ -81,6 +115,6 @@ class Level:
             player_answer[0] = self.vector.coordinates[0]
             player_answer[1] = self.vector.coordinates[1]
             if player_answer == good_answer:
-                print("WIN !")
+                self.final_message(True)
             else:
-                print("loose")
+                self.final_message(False)

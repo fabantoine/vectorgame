@@ -31,7 +31,9 @@ class Inbox:
         except ValueError:
             # En cas d'erreur de conversion en entier
             self.syntax_error = True
-
+        except IndexError:
+            # En cas d'erreur de conversion en entier
+            self.syntax_error = True
     def add_message(self, message):
         self.messages.append(message)
         if len(self.messages) > self.max_lines:
@@ -67,3 +69,10 @@ class Inbox:
             pygame.draw.rect(self.surface, (255, 255, 255), (self.x + 10, self.y + self.height - 30, self.width - 20, 20))
             input_surface = self.font.render(self.input_text, True, (0, 0, 0))
             self.surface.blit(input_surface, (self.x + 12, self.y - 4 + self.height - 28))
+
+    def clean(self):
+        self.input_text = ""
+        self.y_vector = ""
+        self.x_vector = ""
+        self.messages = []
+        self.vector_is_defined = False

@@ -20,7 +20,7 @@ def main():
     clikable_surface = pg.Rect(inbox.x, inbox.y, inbox.width, inbox.height)
     # create the background, tile the bgd image
     background = pg.Surface(SCREENRECT.size)
-    pg.Surface.fill(background, (125, 50, 50), SCREENRECT)
+    pg.Surface.fill(background, (114, 71, 102), SCREENRECT)
     #screen.blit(background, (0, 0))
     #pg.display.flip()
     #landmark.draw_landmark(screen)
@@ -33,6 +33,9 @@ def main():
         screen.blit(background, (0, 0))
         landmark.draw_landmark(screen)
         inbox.draw()
+        if landmark.level.need_inbox_clean:
+            inbox.clean()
+            landmark.level.need_inbox_clean = False
         # get input
         if inbox.x_vector != "" or inbox.y_vector != "":
             landmark.level.vector.coordinates = (inbox.x_vector, inbox.y_vector)
@@ -43,6 +46,8 @@ def main():
                 landmark.level.animation.set_end((landmark.level.rect_cat.center[0]+inbox.x_vector*offset_grid,
                                                 landmark.level.rect_cat.center[1]-inbox.y_vector*offset_grid))
                 landmark.level.animation.is_animated = True
+
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
@@ -64,6 +69,9 @@ def main():
                 elif inbox.input_active:
                     inbox.handle_input(event)
         pg.display.flip()
+        if landmark.level.pause:
+            pg.time.wait(2000)
+            landmark.level.pause = False
         dt = clock.tick(60) / 1000
 
 
